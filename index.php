@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Yet Another Single File PHP Gallery</title>
+  <title>Ian's Photos (and other memories)</title>
   <style>
     html, body { margin: 0; padding: 0.5em; background-color: #eeeeee; }
     h1 { text-align: center; font-family: Georgia, Times, serif; color: black; font-size: 5em; font-weight: 300; }
@@ -10,6 +10,7 @@
     span.photoblock { display: inline-block; margin: 0.5em; padding: 10px; vertical-align: top; width: 200px; height: 240px; background-color: #cccccc; border: 1px solid gray; }
     span.photoblock span.imgwrapper { height: 200px; width: 200px; margin-bottom: 5px; }
     span.photoblock img { margin-bottom: 5px; max-height: 200px;}
+    span.photoblock a { color: black; text-decoration:none;}
   </style>
 </head>
 <body>
@@ -19,7 +20,7 @@
     if (!isset($_GET["album"]))
     {
     
-      print("<h1>My Gallery</h1>");
+      print("<h1>Ian's Photos</h1>");
       // Get directories sorted by modified date
       $dirlist = allAlbums();
       // Print the list, blocking up by year
@@ -41,7 +42,7 @@
           // For each album, display the first photo in it, along with the name as a link
           $firstImageInDir = allPhotos($dir)[0];
           $thumbnailFile = getThumbnail($firstImageInDir);
-          print("<span class=\"photoblock\"><span class=\"imgwrapper\"><a href=\"./?album=" . base64_encode($dir) . "\"><img src=\"" . $thumbnailFile . "\" /></a><br/>" . $dir . "</span></span>");
+          print("<span class=\"photoblock\"><span class=\"imgwrapper\"><a href=\"./?album=" . base64_encode($dir) . "\"><img src=\"" . $thumbnailFile . "\" /><br/>" . $dir . "</a></span></span>");
         }
       }
       echo("</p>");
@@ -58,7 +59,7 @@
       $filelist = allPhotos($albumName);
       foreach ($filelist as $i => $file) {
         $thumbnailFile = getThumbnail($file);
-        print("<span class=\"photoblock\"><span class=\"imgwrapper\"><a href=\"" . $file . "\"><img src=\"" . $thumbnailFile . "\" /></a><br/>" . basename($file, ".jpg") . "</span></span>");
+        print("<span class=\"photoblock\"><span class=\"imgwrapper\"><a href=\"" . $file . "\"><img src=\"" . $thumbnailFile . "\" /><br/>" . basename($file, ".jpg") . "</a></span></span>");
       }
       print("</p>");
     
