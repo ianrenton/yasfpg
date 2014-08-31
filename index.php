@@ -1,15 +1,16 @@
 <html>
 <head>
   <title>Ian's Photos (and other memories)</title>
+  <link href='http://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'>
   <style>
     html, body { margin: 0; padding: 0.5em; background-color: #eeeeee; }
     h1 { text-align: center; font-family: Georgia, Times, serif; color: black; font-size: 5em; font-weight: 300; }
     h2 { text-align: center; font-family: Georgia, Times, serif; color: black; font-size: 3em; font-weight: 300; }
-    h3 { text-align: left; font-family: "Liberation Sans", "Lucida Sans", sans-serif; color: gray; font-size: 2em; margin: 1.5em 0.5em; border-bottom: 2px solid gray; }
+    h3 { text-align: left; font-family: "Liberation Sans", "Lucida Sans", sans-serif; color: gray; font-size: 2em; margin: 1.5em 0.5em 0.5em; border-bottom: 2px solid gray; }
     p#backlink { float:left; }
-    span.photoblock { display: inline-block; margin: 0.5em; padding: 10px; vertical-align: top; width: 200px; height: 240px; background-color: #cccccc; border: 1px solid gray; }
-    span.photoblock span.imgwrapper { height: 200px; width: 200px; margin-bottom: 5px; }
-    span.photoblock img { margin-bottom: 5px; max-height: 200px;}
+    span.photoblock { display: inline-block; margin: 0.5em; padding: 10px; vertical-align: top; width: 200px; height: 200px; background-color: white; border: 1px solid gray; font-family: 'Indie Flower', cursive; font-size: 1.2em; -moz-box-shadow: 5px 5px 8px 0px #ccc; -webkit-box-shadow: 5px 5px 8px 0px #ccc; box-shadow: 5px 5px 8px 0px #ccc;}
+    span.photoblock span.imgwrapper { display: inline-block; height: 150px; width: 200px; margin-bottom: 5px; overflow: none;}
+    span.photoblock img { max-height: 150px; }
     span.photoblock a { color: black; text-decoration:none;}
   </style>
 </head>
@@ -42,7 +43,7 @@
           // For each album, display the first photo in it, along with the name as a link
           $firstImageInDir = allPhotos($dir)[0];
           $thumbnailFile = getThumbnail($firstImageInDir);
-          print("<span class=\"photoblock\"><span class=\"imgwrapper\"><a href=\"./?album=" . base64_encode($dir) . "\"><img src=\"" . $thumbnailFile . "\" /><br/>" . $dir . "</a></span></span>");
+          print("<span class=\"photoblock\"><a href=\"./?album=" . base64_encode($dir) . "\"><span class=\"imgwrapper\"><img src=\"" . $thumbnailFile . "\" /></span><br/>" . $dir . "</a></span>");
         }
       }
       echo("</p>");
@@ -59,7 +60,7 @@
       $filelist = allPhotos($albumName);
       foreach ($filelist as $i => $file) {
         $thumbnailFile = getThumbnail($file);
-        print("<span class=\"photoblock\"><span class=\"imgwrapper\"><a href=\"" . $file . "\"><img src=\"" . $thumbnailFile . "\" /><br/>" . basename($file, ".jpg") . "</a></span></span>");
+        print("<span class=\"photoblock\"><a href=\"" . $file . "\"><span class=\"imgwrapper\"><img src=\"" . $thumbnailFile . "\" /></span><br/>" . pathinfo($file, PATHINFO_FILENAME) . "</a></span>");
       }
       print("</p>");
     
