@@ -10,7 +10,6 @@
     p#backlink { float:left; }
     span.photoblock { display: inline-block; margin: 0.5em; padding: 10px; vertical-align: top; width: 200px; height: 200px; background-color: white; border: 1px solid gray; font-family: 'Indie Flower', cursive; font-size: 1.2em; -moz-box-shadow: 5px 5px 8px 0px #ccc; -webkit-box-shadow: 5px 5px 8px 0px #ccc; box-shadow: 5px 5px 8px 0px #ccc;}
     span.photoblock span.imgwrapper { display: inline-block; height: 150px; width: 200px; margin-bottom: 5px; overflow: none;}
-    span.photoblock img { max-height: 150px; }
     span.photoblock a { color: black; text-decoration:none;}
   </style>
 </head>
@@ -32,7 +31,7 @@
           $newYear = intval(date("Y", filemtime($dir)));
           if ($newYear < $year) {
             $year = $newYear;
-            if ($year > 2001) {
+            if ($year > 1970) {
               print("</p><h3>" . $year . "</h3><p>");
             } else {
               // Hack to have a "misc" category at the end
@@ -125,11 +124,27 @@ function getThumbnail($file) {
       $width = imagesx( $img );
       $height = imagesy( $img );
       $new_width = 200;
-      $new_height = floor( $height * ( 200 / $width ) );
+      $new_height = 150;
 
       // Create new image
       $tmpimg = imagecreatetruecolor( $new_width, $new_height );
-      imagecopyresized( $tmpimg, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height );
+      
+      // Copy old to new, cropping as necessary depending on the ratio of the
+      // original
+      if (($width / $new_width) > ($height / $new_height))
+      {
+        // Full size pic has a wider ratio than thumbnail
+        $usable_width = $height / $new_height * $new_width;
+        $width_starts_from = ($width - $usable_width) / 2;
+        imagecopyresampled( $tmpimg, $img, 0, 0, $width_starts_from, 0, $new_width, $new_height, $usable_width, $height );
+      }
+      else
+      {
+        // Full size pic has a narrower ratio than thumbnail
+        $usable_height = $width / $new_width * $new_height;
+        $height_starts_from = ($height - $usable_height) / 2;
+        imagecopyresampled( $tmpimg, $img, 0, 0, 0, $height_starts_from, $new_width, $new_height, $width, $usable_height );
+      }
 
       // Save thumbnail into file
       imagejpeg( $tmpimg, getThumbnailFilename($file) );
